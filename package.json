@@ -1,0 +1,23 @@
+{
+  "name": "dnd-battle-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npm run clean && babel src --out-dir dist",
+    "clean": "rm -rf dist",
+    "dev": "npm run build && node-debug .",
+    "start": "npm run build && node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John Cronk <john.a.cronk@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1"
+  },
+  "dependencies": {
+    "readline-sync": "^1.4.7"
+  }
+}

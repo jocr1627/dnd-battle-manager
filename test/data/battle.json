@@ -1,0 +1,75 @@
+{
+  "enemies": [
+    {
+      "level": 1,
+      "location": "door",      
+      "name": "archer",
+      "type": "Archer"
+    },
+    {
+      "level": 1,
+      "location": "door",
+      "name": "guard1",
+      "type": "Guard"
+    },
+    {
+      "level": 1,
+      "location": "door",      
+      "name": "guard2",
+      "type": "Guard"
+    }
+  ],
+  "map": {
+    "edges": [
+      {
+        "node0": "counter",
+        "node1": "door",
+        "type": "movement"
+      },
+      {
+        "node0": "counter",
+        "node1": "stairs",
+        "type": "movement"
+      },
+      {
+        "node0": "door",
+        "node1": "stairs",
+        "type": "movement"
+      },
+      {
+        "node0": "upstairs",
+        "node1": "stairs",
+        "type": "movement"
+      },
+      {
+        "node0": "counter",
+        "node1": "door",
+        "type": "sight"
+      },
+      {
+        "node0": "counter",
+        "node1": "stairs",
+        "type": "sight"
+      },
+      {
+        "node0": "door",
+        "node1": "stairs",
+        "type": "sight"
+      }
+    ],
+    "nodes": [
+      {
+        "name": "counter"
+      },
+      {
+        "name": "door"
+      },
+      {
+        "name": "upstairs"
+      },
+      {
+        "name": "stairs"
+      }
+    ]
+  }
+}
