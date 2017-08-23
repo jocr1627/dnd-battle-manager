@@ -121,13 +121,13 @@ class Attack extends ActionDefinition {
         const defenseRoll = target.roll(RollTypes.physicalDefense);
         
         if (attackRoll >= defenseRoll) {
-          console.log('Attack successful!');
+          console.log(`${this.name} successful!`);
           
           const damage = this.character.roll(RollTypes.weaponDamage);
           
           target.takeDamage(damage, this.characters);
         } else {
-          console.log('Attack failed!');
+          console.log(`${this.name} failed!`);
         }
       }
     })
@@ -167,6 +167,50 @@ class Move extends ActionDefinition {
   }
 }
 
+class PowerAttack extends ActionDefinition {
+  constructor() {
+    super('Power Attack');
+  }
+
+  prepare() {
+    const rank = this.character.getActionRank(this.name);
+    const targets = this.character.chooseTargets(1, this.characters);
+    const attackRoll = this.character.roll(RollTypes.weaponAttack) + 2*rank;
+    
+    this.initiative = attackRoll;
+    this.payload = {
+      attackRoll,
+      rank,
+      targets,
+    };
+  }
+
+  resolve() {
+    const {
+      attackRoll,
+      rank,
+      targets,
+    } = this.payload;
+    
+    targets.forEach((target) => {
+      if (target.isAlive) {
+        const defenseRoll = target.roll(RollTypes.physicalDefense);
+        
+        if (attackRoll >= defenseRoll) {
+          console.log(`${this.name} successful!`);
+          
+          const multiplier = (rank >= 3) ? 2 : 1.5;
+          const damage = Math.ceil(multiplier*this.character.roll(RollTypes.weaponDamage));
+          
+          target.takeDamage(damage, this.characters);
+        } else {
+          console.log(`${this.name} failed!`);
+        }
+      }
+    })
+  }
+}
+
 class Rest extends ActionDefinition {
   constructor() {
     super('Rest');
@@ -184,6 +228,7 @@ const actionDefinitions = [
   new Attack(),
   new Flee(),
   new Move(),
+  new PowerAttack(),
   new Rest(),
   new Stand(),
 ];

@@ -46,6 +46,7 @@ export default class Character {
   }
 
   chooseAction(characters, nodes) {}
+  getActionRank(actionName) {}
   roll(type) {}
   takeDamage(damage, characters) {}
 }

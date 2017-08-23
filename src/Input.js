@@ -1,13 +1,18 @@
 import readline from 'readline-sync';
 
 export const normalizeInput = (input) => {
-  return input.split(/\s+/).map((string) => string.trim().toLowerCase());
+  return input.trim().toLowerCase();
 };
 
 const _getInput = (msg, multiValue, getIsValid) => {
   const rawResponse = readline.question(msg);
-  const allResponses = normalizeInput(rawResponse);  
-  const response = multiValue ? allResponses : allResponses[0];
+  let response;
+
+  if (multiValue) {
+    response = rawResponse.split(/\s+/).map((input) => normalizeInput(input));
+  } else {
+    response = normalizeInput(rawResponse);
+  }
 
   if (!Array.isArray(response) && response.match(/q(uit)?/)) {
     process.exit(0);

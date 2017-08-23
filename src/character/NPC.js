@@ -49,6 +49,7 @@ class NPC extends Character {
     super(config);
 
     const {
+      actionRanks,
       attributes,
       baseHealth,
       baseMana,
@@ -58,6 +59,7 @@ class NPC extends Character {
       weapon,
     } = config;
 
+    this.actionRanks = actionRanks;
     this.attributes = attributes;
     this.level = level;
     this.maxHealth = baseHealth + 2*level + 5*attributes.constitution;
@@ -67,6 +69,10 @@ class NPC extends Character {
     this.name = name;
     this.type = type;
     this.weapon = weapon;
+  }
+
+  getActionRank(actionName) {
+    return this.actionRanks[actionName] || 1;  
   }
 
   isTargetInRange(target, isRanged = false) {
@@ -86,6 +92,8 @@ class NPC extends Character {
 
   takeDamage(damage, characters) {
     this.health -= damage;
+
+    console.log(`${this.displayName} took ${damage} points of damage! They have ${this.health}/${this.maxHealth} HP remaining.`);
 
     if (this.health <= 0) {
       this.die(characters);
