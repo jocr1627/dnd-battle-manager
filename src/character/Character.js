@@ -24,7 +24,7 @@ export default class Character {
         return {
           isValid: targetNames.every((name) => Boolean(characters[name])),
           msg: `Invalid response. Choose from the following characters: ${Object.keys(characters)} Try again: `,
-        }
+        };
       }
     );
 
@@ -42,7 +42,7 @@ export default class Character {
   }
 
   die(characters) {
-    console.log(`${this.displayName} was slain!`);    
+    console.log(`${this.displayName} was slain!`);
     this.isAlive = false;
     delete characters[this.name];
   }
@@ -55,8 +55,8 @@ export default class Character {
     if (this.location) {
       delete this.location.occupants[this.name];
     }
-  
-    newLocation.occupants[this.name] = this;    
+
+    newLocation.occupants[this.name] = this;
     this.location = newLocation;
   }
 
@@ -64,6 +64,7 @@ export default class Character {
     this.cooldowns[actionName] = cooldown;
   }
   
+  /* eslint-disable no-unused-vars */
   canPerformAction(actionClassRef) {}
   chooseAction(characters, nodes) {}
   expendMana(mana) {}
@@ -71,5 +72,5 @@ export default class Character {
   restoreMana(mana) {}
   roll(type) {}
   takeDamage(damage, characters) {}
+  /* eslint-enable no-unused-vars */
 }
-

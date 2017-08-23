@@ -53,7 +53,7 @@ the available options.
 |---|---|---|
 |node0|string|The name of one of the nodes involved in the edge|
 |node1|string|The name of one of other node involved in the edge|
-|type|("movement" \| "sight")|A key describing what type of edge exists between the nodes|
+|type|("movement" &#124; "sight")|A key describing what type of edge exists between the nodes|
 
 #### nodes
 |Key|Type|Description|

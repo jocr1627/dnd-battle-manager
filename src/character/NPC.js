@@ -5,7 +5,7 @@ import RollFns from '../RollFns';
 import { Bow, Sword } from '../Weapons';
 
 const initAttributes = (level, attributePriorities) => {
-  const maxPoints = Math.max(2, Math.ceil(level/2));
+  const maxPoints = Math.max(2, Math.ceil(level / 2));
   const totalAttributePoints = level + 2;
   const sum = attributePriorities.reduce((sum, { priority }) => {
     return sum + priority;
@@ -27,8 +27,8 @@ const initAttributes = (level, attributePriorities) => {
 
   for (let i = 0; i < attributePriorities.length; i++) {
     const { attribute, priority } = attributePriorities[i];
-    let points = Math.min(maxPoints, Math.ceil((priority/sum)*totalAttributePoints));
-    
+    let points = Math.min(maxPoints, Math.ceil((priority / sum) * totalAttributePoints));
+
     if (attributePointsUsed + points > totalAttributePoints) {
       points = totalAttributePoints - attributePointsUsed;
     }
@@ -42,7 +42,7 @@ const initAttributes = (level, attributePriorities) => {
   }
 
   return attributes;
-}
+};
 
 class NPC extends Character {
   constructor(config) {
@@ -62,9 +62,9 @@ class NPC extends Character {
     this.actionRanks = actionRanks || {};
     this.attributes = attributes;
     this.level = level;
-    this.maxHealth = baseHealth + 2*level + 5*attributes.constitution;
+    this.maxHealth = baseHealth + 2 * level + 5 * attributes.constitution;
     this.maxMana = baseMana + attributes.willpower;
-    this.health = this.maxHealth;    
+    this.health = this.maxHealth;
     this.mana = this.maxMana;
     this.name = name;
     this.type = type;
@@ -89,8 +89,9 @@ class NPC extends Character {
   }
 
   isTargetInRange(target, isRanged = false) {
-    return isRanged ? Boolean(this.location.edges.sight[target.location.name])
-      : (this.location.name == target.location.name);
+    return isRanged ? (
+      Boolean(this.location.edges.sight[target.location.name])
+    ) : (this.location.name == target.location.name);
   }
 
   isPlayerNearby(characters) {
@@ -135,7 +136,7 @@ export class Archer extends NPC {
       level,
     } = config;
     const attributes = initAttributes(level, Archer.attributePriorities);
-    
+
     config = {
       attributes,
       baseHealth: 7,
@@ -184,7 +185,7 @@ export class Guard extends NPC {
       level,
     } = config;
     const attributes = initAttributes(level, Guard.attributePriorities);
-    
+
     config = {
       attributes,
       baseHealth: 15,

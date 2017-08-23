@@ -27,7 +27,7 @@ const _getInput = (msg, multiValue, getIsValid) => {
     isValid,
     msg: invalidMsg,
     response,
-  }
+  };
 };
 
 export const getInput = (msg, multiValue = false, getIsValid) => {

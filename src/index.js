@@ -11,7 +11,7 @@ const battleDataPath = getInput(
   (path) => {
     const doesExist = fs.existsSync(path);
     const isValid = doesExist && fs.statSync(path).isFile();
-    
+
     return {
       isValid,
       msg: `Invalid file path. Try again: `,
