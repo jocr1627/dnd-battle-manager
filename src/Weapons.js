@@ -10,19 +10,19 @@ class Weapon {
 
   static sumAttributeBonuses(attributes, character, attributeMaximums) {
     attributes = Array.isArray(attributes) ? attributes : [attributes];
-    
+
     return attributes.reduce((sum, attribute) => {
       return sum + Math.min(attributeMaximums[attribute], character.attributes[attribute]);
     }, 0);
   }
-  
-  getDamage(character) {}
+
+  getDamage(character) {} // eslint-disable-line no-unused-vars
 }
 
 export class Bow extends Weapon {
   constructor(level) {
     const attributeMaximums = {
-      dexterity: Math.floor(level/2),
+      dexterity: Math.floor(level / 2),
     };
 
     super('Bow', attributeMaximums, true, level);
@@ -40,8 +40,8 @@ export class Bow extends Weapon {
 export class Sword extends Weapon {
   constructor(level) {
     const attributeMaximums = {
-      dexterity: Math.floor(level/6),
-      strength: Math.floor(level/4) + 1,
+      dexterity: Math.floor(level / 6),
+      strength: Math.floor(level / 4) + 1,
     };
 
     super('Sword', attributeMaximums, false, level);

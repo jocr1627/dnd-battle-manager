@@ -13,8 +13,8 @@ const validateLocationIsInRange = (character, locationName) => {
   const movementEdges = currentLocation.edges.movement;
   const isValid = (locationName == currentLocationName)
     || Boolean(movementEdges[locationName]);
-  const adjacentLocations = Object.keys(movementEdges);  
-  const msg = `Invalid response. Choose from the following locations: ${adjacentLocations},${currentLocationName} Try again: `;    
+  const adjacentLocations = Object.keys(movementEdges);
+  const msg = `Invalid response. Choose from the following locations: ${adjacentLocations},${currentLocationName} Try again: `;
 
   return {
     isValid,
@@ -45,7 +45,7 @@ class Action {
     if (this.character.isAlive) {
       let message = `${this.character.displayName} is performing ${this.name}`;
       const targets = this.payload.targets;
-      
+
       if (targets) {
         if (targets.length > 0) {
           message += ' on ';
@@ -60,8 +60,8 @@ class Action {
         }
       }
 
-      console.log(`${message}...`); 
-      
+      console.log(`${message}...`);
+
       this._resolve();
     }
   }
@@ -72,7 +72,7 @@ class Action {
 
 export class Advance extends Action {
   constructor(character, characters, nodes) {
-    super('Advance', character, characters, nodes)
+    super('Advance', character, characters, nodes);
   }
 
   _resolve() {
@@ -88,13 +88,13 @@ export class Advance extends Action {
 
 export class Attack extends Action {
   constructor(character, characters, nodes) {
-    super('Attack', character, characters, nodes)
+    super('Attack', character, characters, nodes);
   }
 
   _prepare() {
     const targets = this.character.chooseTargets(1, this.characters);
     const attackRoll = this.character.roll(RollTypes.weaponAttack);
-    
+
     this.initiative = attackRoll;
     this.payload = {
       attackRoll,
@@ -107,28 +107,28 @@ export class Attack extends Action {
       attackRoll,
       targets,
     } = this.payload;
-    
+
     targets.forEach((target) => {
       if (target.isAlive) {
         const defenseRoll = target.roll(RollTypes.physicalDefense);
-        
+
         if (attackRoll >= defenseRoll) {
           console.log(`${this.name} successful!`);
           
           const damage = this.character.roll(RollTypes.weaponDamage);
-          
+
           target.takeDamage(damage, this.characters);
         } else {
           console.log(`${this.name} failed!`);
         }
       }
-    })
+    });
   }
 }
 
 export class Flee extends Action {
   constructor(character, characters, nodes) {
-    super('Flee', character, characters, nodes)
+    super('Flee', character, characters, nodes);
   }
 
   _resolve() {
@@ -145,7 +145,7 @@ export class Flee extends Action {
 
 export class Move extends Action {
   constructor(character, characters, nodes) {
-    super('Move', character, characters, nodes)
+    super('Move', character, characters, nodes);
   }
 
   _resolve() {
@@ -161,7 +161,7 @@ export class Move extends Action {
 
 export class PowerAttack extends Action {
   constructor(character, characters, nodes) {
-    super('Power Attack', character, characters, nodes)
+    super('Power Attack', character, characters, nodes);
   }
 
   getManaCost() {
@@ -171,7 +171,7 @@ export class PowerAttack extends Action {
   _prepare() {
     const rank = this.character.getActionRank(this.name);
     const targets = this.character.chooseTargets(1, this.characters);
-    const attackRoll = this.character.roll(RollTypes.weaponAttack) + 2*rank;
+    const attackRoll = this.character.roll(RollTypes.weaponAttack) + 2 * rank;
     
     this.initiative = attackRoll;
     this.payload = {
@@ -199,20 +199,20 @@ export class PowerAttack extends Action {
           console.log(`${this.name} successful!`);
           
           const multiplier = (rank >= 3) ? 2 : 1.5;
-          const damage = Math.ceil(multiplier*this.character.roll(RollTypes.weaponDamage));
+          const damage = Math.ceil(multiplier * this.character.roll(RollTypes.weaponDamage));
           
           target.takeDamage(damage, this.characters);
         } else {
           console.log(`${this.name} failed!`);
         }
       }
-    })
+    });
   }
 }
 
 export class Rest extends Action {
   constructor(character, characters, nodes) {
-    super('Rest', character, characters, nodes)
+    super('Rest', character, characters, nodes);
   }
 
   _resolve() {
@@ -222,6 +222,6 @@ export class Rest extends Action {
 
 export class Stand extends Action {
   constructor(character, characters, nodes) {
-    super('Stand', character, characters, nodes)
+    super('Stand', character, characters, nodes);
   }
 }

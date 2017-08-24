@@ -14,8 +14,8 @@ Object.prototype.sortBy = (object, key, reverse = false) => {
 
     return reverse ? -result : result;
   });
-}
+};
 
 Object.values = (object) => {
   return Object.keys(object).map((key) => object[key]);
-}
+};
