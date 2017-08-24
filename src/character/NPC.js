@@ -1,4 +1,4 @@
-import { default as actionDefinitions} from '../ActionDefinitions';
+import * as Actions from '../Actions';
 import Character from './Character';
 import { sortBy } from '../CollectionUtils';
 import RollFns from '../RollFns';
@@ -59,7 +59,7 @@ class NPC extends Character {
       weapon,
     } = config;
 
-    this.actionRanks = actionRanks;
+    this.actionRanks = actionRanks || {};
     this.attributes = attributes;
     this.level = level;
     this.maxHealth = baseHealth + 2*level + 5*attributes.constitution;
@@ -69,6 +69,19 @@ class NPC extends Character {
     this.name = name;
     this.type = type;
     this.weapon = weapon;
+  }
+
+  canPerformAction(action) {
+    const actionName = action.name;
+    const manaCost = action.getManaCost(this.actionRanks[actionName]);
+    const canAffordMana = (this.mana >= manaCost);
+    const isActionOnCooldown = this.isActionOnCooldown(actionName);
+
+    return canAffordMana && !isActionOnCooldown;
+  }
+
+  expendMana(mana) {
+    this.mana -= mana;
   }
 
   getActionRank(actionName) {
@@ -84,6 +97,10 @@ class NPC extends Character {
     return Object.values(characters).some((character) => {
       return character.isPC && (this.location.name == character.location.name);
     });
+  }
+
+  restoreMana() {
+    this.mana = this.maxMana;
   }
 
   roll(type) {
@@ -135,10 +152,12 @@ export class Archer extends NPC {
     const isPlayerNearby = this.isPlayerNearby(characters);
     let action;
     
-    if (isPlayerNearby) {
-      action = actionDefinitions.flee.createAction(this, characters, nodes);
+    if (this.mana <= 0) {
+      action = new Actions.Rest(this, characters, nodes);
+    } else if (isPlayerNearby) {
+      action = new Actions.Flee(this, characters, nodes);
     } else {
-      action = actionDefinitions.attack.createAction(this, characters, nodes);
+      action = new Actions.Attack(this, characters, nodes);
     }
 
     return action;
@@ -146,6 +165,9 @@ export class Archer extends NPC {
 }
 
 export class Guard extends NPC {
+  static actionRanks = {
+    powerattack: 1,
+  };
   static attributePriorities = [
     { attribute: 'charisma', priority: 0 },
     { attribute: 'constitution', priority: 2 },
@@ -179,10 +201,18 @@ export class Guard extends NPC {
     const isPlayerNearby = this.isPlayerNearby(characters);
     let action;
     
-    if (isPlayerNearby) {
-      action = actionDefinitions.attack.createAction(this, characters, nodes);
+    if (this.mana <= 0) {
+      action = new Actions.Rest(this, characters, nodes);
+    } else if (isPlayerNearby) {
+      const powerAttack = new Actions.PowerAttack(this, characters, nodes);
+
+      if (this.canPerformAction(powerAttack)) {
+        action = powerAttack;
+      } else {
+        action = new Actions.Attack(this, characters, nodes);
+      }
     } else {
-      action = actionDefinitions.advance.createAction(this, characters, nodes);
+      action = new Actions.Advance(this, characters, nodes);
     }
 
     return action;

@@ -35,7 +35,8 @@ export default class Game {
 
     while (!this.isGameOver()) {
       console.log(`Beginning Round ${round}...`);
-      
+
+      Object.values(this.characters).forEach((character) => character.decrementCooldowns());
       this.actions = [];
       
       Object.values(this.characters).forEach((character) => {

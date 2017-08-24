@@ -7,6 +7,7 @@ export default class Character {
       name,
     } = config;
 
+    this.cooldowns = {};
     this.displayName = `${name[0].toUpperCase()}${name.slice(1, name.length)}`;
     this.isAlive = true;
     this.isPC = false;
@@ -29,11 +30,25 @@ export default class Character {
 
     return targetNames.map((name) => characters[name]);
   }
+  
+  decrementCooldowns() {
+    Object.keys(this.cooldowns).forEach((key) => {
+      if (this.cooldowns[key] <= 1) {
+        delete this.cooldowns[key];
+      } else {
+        this.cooldowns[key]--;
+      }
+    });
+  }
 
   die(characters) {
     console.log(`${this.displayName} was slain!`);    
     this.isAlive = false;
     delete characters[this.name];
+  }
+
+  isActionOnCooldown(actionName) {
+    return Boolean(this.cooldowns[actionName]);
   }
 
   move(newLocation) {
@@ -45,8 +60,15 @@ export default class Character {
     this.location = newLocation;
   }
 
+  setCooldown(actionName, cooldown) {
+    this.cooldowns[actionName] = cooldown;
+  }
+  
+  canPerformAction(actionClassRef) {}
   chooseAction(characters, nodes) {}
+  expendMana(mana) {}
   getActionRank(actionName) {}
+  restoreMana(mana) {}
   roll(type) {}
   takeDamage(damage, characters) {}
 }

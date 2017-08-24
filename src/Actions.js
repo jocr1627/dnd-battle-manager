@@ -1,5 +1,11 @@
-import { getInput, normalizeInput } from './Input';
+import { getInput } from './Input';
 import * as RollTypes from './RollTypes';
+
+export function getActionClassNameFromInput(input) {
+  return input.split(/\s+/).reduce((className, word) => {
+    return `${className}${word[0].toUpperCase()}${word.slice(1, word.length)}`;
+  }, '');
+}
 
 const validateLocationIsInRange = (character, locationName) => {
   const currentLocation = character.location;
@@ -16,34 +22,17 @@ const validateLocationIsInRange = (character, locationName) => {
   };
 };
 
-class ActionDefinition {
-  constructor(name) {
-    this.name = name;
-  }
-
-  createAction(character, characters, nodes) {
-    return new Action(this, character, characters, nodes);
-  }
-
-  prepare() {}
-  resolve(action) {}
-}
-
 class Action {
-  constructor(definition, character, characters, nodes) {
-    const {
-      name,
-      prepare,
-      resolve,
-    } = definition;
-
+  constructor(name, character, characters, nodes) {
     this.character = character;
     this.characters = characters;
     this.name = name;
     this.nodes = nodes;
-    this.payload = {};
-    this._prepare = prepare;
-    this._resolve = resolve;    
+    this.payload = {};   
+  }
+
+  getManaCost() {
+    return 0;
   }
 
   prepare() {
@@ -76,14 +65,17 @@ class Action {
       this._resolve();
     }
   }
+
+  _prepare() {}
+  _resolve() {}
 }
 
-class Advance extends ActionDefinition {
-  constructor() {
-    super('Advance');
+export class Advance extends Action {
+  constructor(character, characters, nodes) {
+    super('Advance', character, characters, nodes)
   }
 
-  resolve() {
+  _resolve() {
     const locationName = getInput(
       `Where did ${this.character.displayName} advance to? `,
       false,
@@ -94,12 +86,12 @@ class Advance extends ActionDefinition {
   }
 }
 
-class Attack extends ActionDefinition {
-  constructor() {
-    super('Attack');
+export class Attack extends Action {
+  constructor(character, characters, nodes) {
+    super('Attack', character, characters, nodes)
   }
 
-  prepare() {
+  _prepare() {
     const targets = this.character.chooseTargets(1, this.characters);
     const attackRoll = this.character.roll(RollTypes.weaponAttack);
     
@@ -110,7 +102,7 @@ class Attack extends ActionDefinition {
     };
   }
 
-  resolve() {
+  _resolve() {
     const {
       attackRoll,
       targets,
@@ -134,12 +126,12 @@ class Attack extends ActionDefinition {
   }
 }
 
-class Flee extends ActionDefinition {
-  constructor() {
-    super('Flee');
+export class Flee extends Action {
+  constructor(character, characters, nodes) {
+    super('Flee', character, characters, nodes)
   }
 
-  resolve() {
+  _resolve() {
     const locationName = getInput(
       `Where did ${this.character.displayName} flee to? `,
       false,
@@ -151,12 +143,12 @@ class Flee extends ActionDefinition {
 }
 
 
-class Move extends ActionDefinition {
-  constructor() {
-    super('Move');
+export class Move extends Action {
+  constructor(character, characters, nodes) {
+    super('Move', character, characters, nodes)
   }
 
-  resolve() {
+  _resolve() {
     const locationName = getInput(
       `Where did ${this.character.displayName} move to? `,
       false,
@@ -167,12 +159,16 @@ class Move extends ActionDefinition {
   }
 }
 
-class PowerAttack extends ActionDefinition {
-  constructor() {
-    super('Power Attack');
+export class PowerAttack extends Action {
+  constructor(character, characters, nodes) {
+    super('Power Attack', character, characters, nodes)
   }
 
-  prepare() {
+  getManaCost() {
+    return 2;
+  }
+
+  _prepare() {
     const rank = this.character.getActionRank(this.name);
     const targets = this.character.chooseTargets(1, this.characters);
     const attackRoll = this.character.roll(RollTypes.weaponAttack) + 2*rank;
@@ -185,12 +181,15 @@ class PowerAttack extends ActionDefinition {
     };
   }
 
-  resolve() {
+  _resolve() {
     const {
       attackRoll,
       rank,
       targets,
     } = this.payload;
+
+    this.character.expendMana(2);
+    this.character.setCooldown(this.name, 2);
     
     targets.forEach((target) => {
       if (target.isAlive) {
@@ -211,32 +210,18 @@ class PowerAttack extends ActionDefinition {
   }
 }
 
-class Rest extends ActionDefinition {
-  constructor() {
-    super('Rest');
+export class Rest extends Action {
+  constructor(character, characters, nodes) {
+    super('Rest', character, characters, nodes)
+  }
+
+  _resolve() {
+    this.character.restoreMana();
   }
 }
 
-class Stand extends ActionDefinition {
-  constructor() {
-    super('Stand');
+export class Stand extends Action {
+  constructor(character, characters, nodes) {
+    super('Stand', character, characters, nodes)
   }
 }
-
-const actionDefinitions = [
-  new Advance(),
-  new Attack(),
-  new Flee(),
-  new Move(),
-  new PowerAttack(),
-  new Rest(),
-  new Stand(),
-];
-
-export default actionDefinitions.reduce((acc, actionDefinition) => {
-  const normalizedName = normalizeInput(actionDefinition.name);
-
-  acc[normalizedName] = actionDefinition;
-
-  return acc;
-}, {});

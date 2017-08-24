@@ -1,4 +1,4 @@
-import { default as actionDefinitions} from '../ActionDefinitions';
+import * as Actions from '../Actions';
 import Character from './Character';
 import { getInput } from '../Input';
 
@@ -10,18 +10,21 @@ export default class Player extends Character {
   }
 
   chooseAction(characters, nodes) {
-    const actionName = getInput(
+    const response = getInput(
       `What is ${this.displayName}'s action? `,
       false,
-      (actionName) => {
+      (response) => {
+        const actionClassName = Actions.getActionClassNameFromInput(response);
+
         return {
-          isValid: Boolean(actionDefinitions[actionName]),
-          msg: `Invalid response. ${actionName} is not a known action. Try again: `,
+          isValid: Boolean(Actions[actionClassName]),
+          msg: `Invalid response. ${response} is not a known action. Try again: `,
         };
       }
     );
+    const actionClassName = Actions.getActionClassNameFromInput(response);
 
-    return actionDefinitions[actionName].createAction(this, characters, nodes);
+    return new Actions[actionClassName](this, characters, nodes);
   }
 
 
@@ -31,7 +34,7 @@ export default class Player extends Character {
       false,
       (rank) => {
         return {
-          isValid: !isNaN(rank),
+          isValid: rank && !isNaN(rank),
           msg: `Invalid response. ${rank} is not a number. Try again: `,
         };
       }
@@ -44,7 +47,7 @@ export default class Player extends Character {
       false,
       (roll) => {
         return {
-          isValid: !isNaN(roll),
+          isValid: roll && !isNaN(roll),
           msg: `Invalid response. ${roll} is not a number. Try again: `,
         };
       }

@@ -1,6 +1,6 @@
 import readline from 'readline-sync';
 
-export const normalizeInput = (input) => {
+const normalizeInput = (input) => {
   return input.trim().toLowerCase();
 };
 

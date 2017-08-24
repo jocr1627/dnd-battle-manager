@@ -6,15 +6,15 @@ npm run start
 * You will be prompted for a file path. Use [test/data/battle.json](https://github.com/jocr1627/dnd-battle-manager/blob/master/test/data/battle.json) for a sample [configuration](#config).
 
 ## How can this be expanded?
-* Add [action definitions](https://github.com/jocr1627/dnd-battle-manager/blob/master/src/ActionDefinitions.js) (e.g. Attack)
+* Add [actions](https://github.com/jocr1627/dnd-battle-manager/blob/master/src/Actions.js) (e.g. Attack)
 * Add [NPC types](https://github.com/jocr1627/dnd-battle-manager/blob/master/src/character/NPC.js) (e.g. Archer)
 * Add roll [types](https://github.com/jocr1627/dnd-battle-manager/blob/master/src/RollTypes.js) and their corresponding [functions](https://github.com/jocr1627/dnd-battle-manager/blob/master/src/RollFns.js)
 * Add [weapons](https://github.com/jocr1627/dnd-battle-manager/blob/master/src/Weapons.js)
 * Implement equipment other than weapons (e.g. armor)
-* Implement an action definition that allows the use of an inventory item
+* Implement an action that allows the use of an inventory item
 * Expand the available options for the configuration file
 * Create a loot generator
-* Implement interactable objects both in the configuration and action definitions
+* Implement interactable objects both in the configuration and actions
 * Allow the user to override an npc's action choice
 * Allow the user to directly call for events out of turn (e.g. declare that an npc takes damage)
 * Allow the user to check on the status of npcs (e.g. print health)
