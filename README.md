@@ -10,6 +10,7 @@ npm run start
 * Add [NPC types](https://github.com/jocr1627/dnd-battle-manager/blob/master/src/character/NPC.js) (e.g. Archer)
 * Add roll [types](https://github.com/jocr1627/dnd-battle-manager/blob/master/src/RollTypes.js) and their corresponding [functions](https://github.com/jocr1627/dnd-battle-manager/blob/master/src/RollFns.js)
 * Add [weapons](https://github.com/jocr1627/dnd-battle-manager/blob/master/src/Weapons.js)
+* Improve strategy for NPC AI (chooseAction & chooseTargets)
 * Implement equipment other than weapons (e.g. armor)
 * Implement an action that allows the use of an inventory item
 * Expand the available options for the configuration file
