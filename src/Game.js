@@ -1,7 +1,7 @@
+import NPCClasses from './character/npc';
+import Player from './character/Player';
 import { sortBy } from './CollectionUtils';
 import Map from './Map';
-import * as NPC from './character/NPC';
-import Player from './character/Player';
 
 export default class Game {
   constructor(rawNodes, rawEdges, playerConfigs, enemyConfigs) {
@@ -17,7 +17,7 @@ export default class Game {
 
     enemyConfigs.forEach((config) => {
       const location = this.map.nodes[config.location];
-      const NPCClass = NPC[config.type];
+      const NPCClass = NPCClasses[config.type];
       const enemy = new NPCClass({ ...config, location });
 
       this.characters[enemy.name] = enemy;
@@ -37,19 +37,20 @@ export default class Game {
       console.log(`Beginning Round ${round}...`);
 
       Object.values(this.characters).forEach((character) => character.decrementCooldowns());
-      this.actions = [];
+      
+      const actions = [];
       
       Object.values(this.characters).forEach((character) => {
         const action = character.chooseAction(this.characters, this.map.nodes);
 
         action.prepare();
-        this.actions.push(action);
+        actions.push(action);
       });
 
-      sortBy(this.actions, 'initiative', true);
+      sortBy(actions, 'initiative', true);
 
-      for (let i = 0; i < this.actions.length; i++) {
-        const action = this.actions[i];
+      for (let i = 0; i < actions.length; i++) {
+        const action = actions[i];
 
         action.resolve();
         
