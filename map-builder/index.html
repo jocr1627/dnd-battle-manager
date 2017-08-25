@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D&amp;D Map Builder</title>
+    <!-- Most of this is lifted out of cytospace docs: js.cytospace.org -->
+    <style media="screen">
+      #cy {
+        width: 300px;
+        height: 300px;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cy" ></div>
+
+    <!-- load the cytoscape package to a global variable "cytoscape"-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.1/cytoscape.min.js" charset="utf-8"></script>
+    <!-- load lodash for the edge-adding extension as the global variable "_" -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js" charset="utf-8"></script>
+    <!-- load an extension to make adding edges more exciting -->
+    <script src="./vendor/cytoscape-edgehandles/cytoscape-edgehandles.js" charset="utf-8"></script>
+    <!-- do our stuff -->
+    <script src="./map_builder.js" charset="utf-8"></script>
+  </body>
+</html>
