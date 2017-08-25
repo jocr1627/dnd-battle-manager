@@ -14,6 +14,7 @@ module.exports = {
         "no-console": "off",
         "semi": "off",
         "babel/semi": ["error", "always"],
+        "quotes": ["warn", "single"],
 
         "comma-dangle": ["warn", {
           "arrays": "always-multiline",

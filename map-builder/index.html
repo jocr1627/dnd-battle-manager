@@ -9,11 +9,25 @@
         width: 300px;
         height: 300px;
         display: block;
+        border: 1px solid darkgray;
+      }
+      .button_holder {
+        width: 300px;
       }
     </style>
   </head>
   <body>
     <div id="cy" ></div>
+    <div class="button_holder">
+      <button type="button" name="add_region">Add Region</button>
+      <button type="button" name="remove_region">Remove Region</button>
+      <button type="button" name="remove_edge">Remove Connection</button>
+    </div>
+    <div class="button_holder">
+      <button type="button" name="json">Get JSON</button>
+    </div>
+    <pre id="json_container">
+    </pre>
 
     <!-- load the cytoscape package to a global variable "cytoscape"-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.1/cytoscape.min.js" charset="utf-8"></script>
