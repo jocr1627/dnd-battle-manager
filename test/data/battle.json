@@ -1,13 +1,13 @@
 {
   "enemies": [
     {
-      "level": 1,
+      "level": 10,
       "location": "door",      
       "name": "archer",
       "type": "Archer"
     },
     {
-      "level": 1,
+      "level": 10,
       "location": "door",
       "name": "guard1",
       "type": "Guard"

@@ -16,7 +16,7 @@ export default class NPC extends Character {
       type,
       weapon,
     } = config;
-
+    
     this.actionRanks = actionRanks || {};
     this.attributes = attributes;
     this.level = level;
@@ -31,7 +31,7 @@ export default class NPC extends Character {
 
   canPerformAction(action) {
     const actionName = action.name;
-    const manaCost = action.getManaCost(this.actionRanks[actionName]);
+    const manaCost = action.getManaCost(this.getActionRank(actionName));
     const canAffordMana = (this.mana >= manaCost);
     const isActionOnCooldown = this.isActionOnCooldown(actionName);
 

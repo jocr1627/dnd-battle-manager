@@ -27,7 +27,7 @@ export default class Action {
           message += ' on ';
 
           for (let i = 0; i < targets.length - 1; i++) {
-            message += `${targets[i].displayName},`;
+            message += `${targets[i].displayName}, `;
           }
 
           message += targets[targets.length - 1].displayName;
