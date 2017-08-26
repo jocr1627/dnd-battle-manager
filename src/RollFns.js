@@ -1,5 +1,5 @@
 import { roll } from './Dice';
-import * as RollTypes from './RollTypes';
+import RollTypes from './RollTypes';
 
 export default {
   [RollTypes.physicalDefense]: (character) => roll(20) + character.attributes.dexterity,

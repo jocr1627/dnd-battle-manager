@@ -1,4 +1,5 @@
-import * as Actions from '../Actions';
+import Actions from '../action';
+import { getActionClassNameFromInput } from '../action/Utils';
 import Character from './Character';
 import { getInput } from '../Input';
 
@@ -14,7 +15,7 @@ export default class Player extends Character {
       `What is ${this.displayName}'s action? `,
       false,
       (response) => {
-        const actionClassName = Actions.getActionClassNameFromInput(response);
+        const actionClassName = getActionClassNameFromInput(response);
 
         return {
           isValid: Boolean(Actions[actionClassName]),
@@ -22,7 +23,7 @@ export default class Player extends Character {
         };
       }
     );
-    const actionClassName = Actions.getActionClassNameFromInput(response);
+    const actionClassName = getActionClassNameFromInput(response);
 
     return new Actions[actionClassName](this, characters, nodes);
   }
