@@ -19,20 +19,28 @@ export const initAttributes = (level, attributePriorities) => {
     strength: 0,
     willpower: 0,
   };
-  let attributePointsUsed = 0;
-
+  let remainingPoints = totalAttributePoints;
+  let excessPoints = 0;
+  
   for (let i = 0; i < attributePriorities.length; i++) {
     const { attribute, priority } = attributePriorities[i];
-    let points = Math.min(maxPoints, Math.ceil((priority / sum) * totalAttributePoints));
+    let points = Math.ceil((priority / sum) * totalAttributePoints) + excessPoints;
 
-    if (attributePointsUsed + points > totalAttributePoints) {
-      points = totalAttributePoints - attributePointsUsed;
+    if (points > remainingPoints) {
+      points = remainingPoints;
+    }
+
+    if (points > maxPoints) {
+      excessPoints = points - maxPoints;
+      points = maxPoints;
+    } else {
+      excessPoints = 0;
     }
 
     attributes[attribute] = points;
-    attributePointsUsed += points;
+    remainingPoints -= points;
 
-    if (attributePointsUsed >= totalAttributePoints) {
+    if (remainingPoints <= 0) {
       break;
     }
   }
