@@ -1,0 +1,107 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "cytoscape-edgehandles",
+        "scope": null,
+        "escapedName": "cytoscape-edgehandles",
+        "name": "cytoscape-edgehandles",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/nigelschool/sandbox/Cronk/dnd-battle-manager"
+    ]
+  ],
+  "_from": "cytoscape-edgehandles@latest",
+  "_id": "cytoscape-edgehandles@2.13.3",
+  "_inCache": true,
+  "_location": "/cytoscape-edgehandles",
+  "_nodeVersion": "6.11.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/cytoscape-edgehandles-2.13.3.tgz_1503079120666_0.31000216444954276"
+  },
+  "_npmUser": {
+    "name": "maxkfranz",
+    "email": "maxkfranz@gmail.com"
+  },
+  "_npmVersion": "3.10.10",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "cytoscape-edgehandles",
+    "scope": null,
+    "escapedName": "cytoscape-edgehandles",
+    "name": "cytoscape-edgehandles",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cytoscape-edgehandles/-/cytoscape-edgehandles-2.13.3.tgz",
+  "_shasum": "3d5cc9435a62cd5d71a7730316b12a42f9ac2c0b",
+  "_shrinkwrap": null,
+  "_spec": "cytoscape-edgehandles",
+  "_where": "/Users/nigelschool/sandbox/Cronk/dnd-battle-manager",
+  "bugs": {
+    "url": "https://github.com/cytoscape/cytoscape.js-edgehandles/issues"
+  },
+  "dependencies": {
+    "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1"
+  },
+  "description": "Edge creation extension for Cytoscape.js",
+  "devDependencies": {
+    "gulp": "^3.8.8",
+    "gulp-eslint": "^3.0.1",
+    "gulp-prompt": "^0.1.1",
+    "gulp-replace": "^0.4.0",
+    "gulp-shell": "^0.2.9",
+    "jshint-stylish": "^1.0.0",
+    "run-sequence": "^1.0.0"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "3d5cc9435a62cd5d71a7730316b12a42f9ac2c0b",
+    "tarball": "https://registry.npmjs.org/cytoscape-edgehandles/-/cytoscape-edgehandles-2.13.3.tgz"
+  },
+  "gitHead": "2637ed99e383be01a58e163eb87b6a3ff6ea6bc6",
+  "homepage": "https://github.com/cytoscape/cytoscape.js-edgehandles",
+  "keywords": [
+    "cytoscape",
+    "cyext"
+  ],
+  "license": "MIT",
+  "main": "cytoscape-edgehandles.js",
+  "maintainers": [
+    {
+      "name": "cytoscapenpm",
+      "email": "cytoscapenpm@gmail.com"
+    },
+    {
+      "name": "maxkfranz",
+      "email": "maxkfranz@gmail.com"
+    },
+    {
+      "name": "dylanfong",
+      "email": "dylanfong.ut@gmail.com"
+    }
+  ],
+  "name": "cytoscape-edgehandles",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "cytoscape": "^2.2.8 || ^3.0.0"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cytoscape/cytoscape.js-edgehandles.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "2.13.3"
+}
