@@ -1,43 +1,48 @@
+import { roll } from '../Dice';
 import RollTypes from '../RollTypes';
 
 import Action from './Action';
 
 export default class Attack extends Action {
-  constructor(character, characters, nodes) {
-    super('Attack', character, characters, nodes);
+  constructor() {
+    super('Attack');
   }
 
-  _prepare() {
-    const targets = this.character.chooseTargets(1, this.characters);
-    const attackRoll = this.character.roll(RollTypes.weaponAttack);
-
-    this.initiative = attackRoll;
-    this.payload = {
+  getPreparationData(actor, context) {
+    const {
+      characters,
+    } = context;
+    const targets = actor.chooseTargets(1, characters);
+    const attackRoll = roll(20);
+    const attackBonus = actor.getBonus(RollTypes.weaponAttack);
+    const attackScore = attackRoll + attackBonus;
+    const range = actor.getWeaponRange();    
+    
+    return {
+      attackBonus,
       attackRoll,
+      attackScore,
+      initiative: attackScore,
+      range,
       targets,
     };
   }
 
-  _resolve() {
-    const {
-      attackRoll,
-      targets,
-    } = this.payload;
+  getResponseData(target, actor, context, event) {
+    const defenseRoll = target.roll(RollTypes.physicalDefense);
+    
+    return {
+      defenseRoll,
+    };
+      // if (attackRoll >= defenseRoll) {
+      //   console.log(`${this.name} successful!`);
+        
+      //   const damage = this.actor.roll(RollTypes.weaponDamage);
 
-    targets.forEach((target) => {
-      if (target.isAlive) {
-        const defenseRoll = target.roll(RollTypes.physicalDefense);
-
-        if (attackRoll >= defenseRoll) {
-          console.log(`${this.name} successful!`);
-          
-          const damage = this.character.roll(RollTypes.weaponDamage);
-
-          target.takeDamage(damage, this.characters);
-        } else {
-          console.log(`${this.name} failed!`);
-        }
-      }
-    });
+      //   target.takeDamage(damage, characters);
+      // } else {
+      //   console.log(`${this.name} failed!`);
+      // }
+    }
   }
 }

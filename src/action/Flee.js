@@ -4,17 +4,22 @@ import Action from './Action';
 import { validateLocationIsInRange } from './Utils';
 
 export default class Flee extends Action {
-  constructor(character, characters, nodes) {
-    super('Flee', character, characters, nodes);
+  constructor() {
+    super('Flee');
   }
 
-  _resolve() {
+  _resolve(context) {
+    const {
+      map: {
+        nodes,
+      },
+    } = context;
     const locationName = getInput(
-      `Where did ${this.character.displayName} flee to? `,
+      `Where did ${this.actor.displayName} flee to? `,
       false,
-      (locationName) => validateLocationIsInRange(this.character, locationName)
+      (locationName) => validateLocationIsInRange(this.actor, locationName)
     );
 
-    this.character.move(this.nodes[locationName]);
+    this.actor.move(nodes[locationName]);
   }
 }

@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import Game from './Game';
+import Game from './game/Game';
 import { getInput } from './Input';
 
 require('./CollectionUtils');

@@ -1,4 +1,7 @@
+import { subscribe } from '../event/Event';
 import { getInput } from '../Input';
+
+import handlers from './Handlers';
 
 export default class Character {
   constructor(config) {
@@ -14,6 +17,8 @@ export default class Character {
     this.name = name;
 
     this.move(location);
+    
+    subscribe(this, handlers);
   }
 
   chooseTargets(numTargets, characters) {
@@ -58,6 +63,10 @@ export default class Character {
 
     newLocation.occupants[this.name] = this;
     this.location = newLocation;
+  }
+
+  notify(context, event) {
+    handlers[event.type](this, context, event);
   }
 
   setCooldown(actionName, cooldown) {

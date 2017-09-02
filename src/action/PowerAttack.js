@@ -3,36 +3,42 @@ import RollTypes from '../RollTypes';
 import Action from './Action';
 
 export default class PowerAttack extends Action {
-  constructor(character, characters, nodes) {
-    super('Power Attack', character, characters, nodes);
+  constructor() {
+    super('Power Attack');
   }
 
   getManaCost() {
     return 2;
   }
 
-  _prepare() {
-    const rank = this.character.getActionRank(this.name);
-    const targets = this.character.chooseTargets(1, this.characters);
-    const attackRoll = this.character.roll(RollTypes.weaponAttack) + 2 * rank;
+  getActionData(actor, context) {
+    const {
+      characters,
+    } = context;
+    const rank = actor.getActionRank(this.name);
+    const targets = actor.chooseTargets(1, characters);
+    const attackRoll = actor.roll(RollTypes.weaponAttack) + 2 * rank;
     
-    this.initiative = attackRoll;
-    this.payload = {
+    return {
       attackRoll,
+      initiative: attackRoll,
       rank,
       targets,
     };
   }
 
-  _resolve() {
+  _resolve(context) {
+    const {
+      characters,
+    } = context;
     const {
       attackRoll,
       rank,
       targets,
-    } = this.payload;
+    } = this.inputs;
 
-    this.character.expendMana(2);
-    this.character.setCooldown(this.name, 2);
+    this.actor.expendMana(2);
+    this.actor.setCooldown(this.name, 2);
     
     targets.forEach((target) => {
       if (target.isAlive) {
@@ -42,9 +48,9 @@ export default class PowerAttack extends Action {
           console.log(`${this.name} successful!`);
           
           const multiplier = (rank >= 3) ? 2 : 1.5;
-          const damage = Math.ceil(multiplier * this.character.roll(RollTypes.weaponDamage));
+          const damage = Math.ceil(multiplier * this.actor.roll(RollTypes.weaponDamage));
           
-          target.takeDamage(damage, this.characters);
+          target.takeDamage(damage, characters);
         } else {
           console.log(`${this.name} failed!`);
         }

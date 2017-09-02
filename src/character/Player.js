@@ -10,7 +10,7 @@ export default class Player extends Character {
     this.isPC = true;
   }
 
-  chooseAction(characters, nodes) {
+  chooseAction() {
     const response = getInput(
       `What is ${this.displayName}'s action? `,
       false,
@@ -25,7 +25,7 @@ export default class Player extends Character {
     );
     const actionClassName = getActionClassNameFromInput(response);
 
-    return new Actions[actionClassName](this, characters, nodes);
+    return new Actions[actionClassName](this);
   }
 
 

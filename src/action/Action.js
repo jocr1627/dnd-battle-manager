@@ -1,49 +1,55 @@
+import { addEvent } from '../event/Event';
+
+import { actionPrepared } from './Events';
+
 export default class Action {
-  constructor(name, character, characters, nodes) {
-    this.character = character;
-    this.characters = characters;
+  constructor(name) {
     this.name = name;
-    this.nodes = nodes;
-    this.payload = {};
   }
 
   getManaCost() {
     return 0;
   }
 
-  prepare() {
-    console.log(`${this.character.displayName} will perform ${this.name}...`);
-
-    this._prepare();
+  getPreparationData() {
+    return {};
   }
 
-  resolve() {
-    if (this.character.isAlive) {
-      let message = `${this.character.displayName} is performing ${this.name}`;
-      const targets = this.payload.targets;
+  getResponseData() {
+    return {};
+  }
 
-      if (targets) {
-        if (targets.length > 0) {
-          message += ' on ';
+  prepare(actor, context) {
+    console.log(`${actor.displayName} will perform ${this.name}...`);
 
-          for (let i = 0; i < targets.length - 1; i++) {
-            message += `${targets[i].displayName}, `;
-          }
+    const data = this.getPreparationData(actor, context),
+    const payload = {
+      actionName: this.name,
+      actor,
+      data,
+    };
 
-          message += targets[targets.length - 1].displayName;
-        } else {
-          message += ' but failed to find a target';
-        }
-      }
+    addEvent(actionPrepared(payload));    
+  }
 
-      console.log(`${message}...`);
+  respond(target, actor, context, event) {
+    if (actor.isAlive && target.isAlive) {
+      console.log(`${actor.displayName} is performing ${this.name} on ${target.displayName}...`);
 
-      this._resolve();
+      const data = this.getResponseData(target, actor, context, event);
+      const payload = {
+        actionName: this.name,
+        actor,
+        data,
+        target,
+      };
+
+      addEvent(targetResponded());
     }
   }
 
   /* eslint-disable no-unused-vars */
-  _prepare() {}
-  _resolve(actions) {}
+  _prepare(actor, context) {}
+  _resolve(actor, context, event) {}
   /* eslint-disable no-unused-vars */
 }

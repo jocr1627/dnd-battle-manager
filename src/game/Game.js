@@ -1,7 +1,13 @@
-import NPCClasses from './character/npc';
-import Player from './character/Player';
-import { sortBy } from './CollectionUtils';
-import Map from './Map';
+import NPCClasses from '../character/npc';
+import Player from '../character/Player';
+import { sortBy } from '../CollectionUtils';
+import { addEvent, resolveEvents } from '../event/Event';
+import Map from '../Map';
+
+import {
+  gameEnded,
+  roundStarted,
+ } from './Events';
 
 export default class Game {
   constructor(rawNodes, rawEdges, playerConfigs, enemyConfigs) {
@@ -31,37 +37,22 @@ export default class Game {
   }
 
   start() {
+    const context = {
+      characters: this.characters,
+      map: this.map,
+    };
     let round = 1;
 
     while (!this.isGameOver()) {
       console.log(`Beginning Round ${round}...`);
 
-      Object.values(this.characters).forEach((character) => character.decrementCooldowns());
-      
-      const actions = [];
-      
-      Object.values(this.characters).forEach((character) => {
-        const action = character.chooseAction(this.characters, this.map.nodes);
-
-        action.prepare();
-        actions.push(action);
-      });
-
-      sortBy(actions, 'initiative', true);
-
-      for (let i = 0; i < actions.length; i++) {
-        const action = actions[i];
-
-        action.resolve();
-        
-        if (this.isGameOver()) {
-          break;
-        }
-      }
+      addEvent(roundStarted());
+      resolveEvents(context);
 
       round++;
     }
 
+    dispatch(gameEnded());
     console.log('GAME OVER');
   }
 }
