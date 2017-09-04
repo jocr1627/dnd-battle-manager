@@ -2,7 +2,7 @@
   "name": "dnd-battle-manager",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/Undos.js",
   "scripts": {
     "build": "npm run clean && babel src --out-dir dist",
     "clean": "rm -rf dist",

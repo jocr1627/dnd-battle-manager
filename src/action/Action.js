@@ -22,7 +22,7 @@ export default class Action {
   prepare(actor, context) {
     console.log(`${actor.displayName} will perform ${this.name}...`);
 
-    const data = this.getPreparationData(actor, context),
+    const data = this.getPreparationData(actor, context);
     const payload = {
       actionName: this.name,
       actor,

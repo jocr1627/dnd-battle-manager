@@ -34,15 +34,15 @@ export default class Attack extends Action {
     return {
       defenseRoll,
     };
-      // if (attackRoll >= defenseRoll) {
-      //   console.log(`${this.name} successful!`);
+    //   if (attackRoll >= defenseRoll) {
+    //     console.log(`${this.name} successful!`);
         
-      //   const damage = this.actor.roll(RollTypes.weaponDamage);
+    //     const damage = this.actor.roll(RollTypes.weaponDamage);
 
-      //   target.takeDamage(damage, characters);
-      // } else {
-      //   console.log(`${this.name} failed!`);
-      // }
-    }
+    //     target.takeDamage(damage, characters);
+    //   } else {
+    //     console.log(`${this.name} failed!`);
+    //   }
+    // }
   }
 }
