@@ -37,22 +37,23 @@ export default class Guard extends NPC {
     super(config);
   }
 
-  chooseAction(characters, nodes) {
+  chooseAction(context) {
+    const { characters } = context;
     const isPlayerNearby = this.isPlayerNearby(characters);
     let action;
-    
+
     if (this.mana <= 0) {
-      action = new Actions.Rest(this, characters, nodes);
+      action = new Actions.Rest(this);
     } else if (isPlayerNearby) {
-      const powerAttack = new Actions.PowerAttack(this, characters, nodes);
+      const powerAttack = new Actions.PowerAttack(this);
 
       if (this.canPerformAction(powerAttack)) {
         action = powerAttack;
       } else {
-        action = new Actions.Attack(this, characters, nodes);
+        action = new Actions.Attack(this);
       }
     } else {
-      action = new Actions.Advance(this, characters, nodes);
+      action = new Actions.Advance(this);
     }
 
     return action;

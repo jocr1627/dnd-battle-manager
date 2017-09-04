@@ -1,25 +1,23 @@
 export default class Action {
-  constructor(name, character, characters, nodes) {
-    this.character = character;
-    this.characters = characters;
+  constructor(name, actor) {
+    this.actor = actor;
     this.name = name;
-    this.nodes = nodes;
-    this.payload = {};
+    this.data = {};
   }
 
   getManaCost() {
     return 0;
   }
 
-  prepare() {
-    console.log(`${this.character.displayName} will perform ${this.name}...`);
+  prepare(context) {
+    console.log(`${this.actor.displayName} will perform ${this.name}...`);
 
-    this._prepare();
+    this._prepare(context);
   }
 
-  resolve() {
-    if (this.character.isAlive) {
-      let message = `${this.character.displayName} is performing ${this.name}`;
+  execute(context) {
+    if (this.actor.isAlive) {
+      let message = `${this.actor.displayName} is performing ${this.name}`;
       const targets = this.payload.targets;
 
       if (targets) {
@@ -38,12 +36,16 @@ export default class Action {
 
       console.log(`${message}...`);
 
-      this._resolve();
+      this._execute(context);
     }
   }
 
   /* eslint-disable no-unused-vars */
-  _prepare() {}
-  _resolve(actions) {}
+  _prepare(context) {
+    throw new Error('Define me, jackass!');
+  }
+  _execute(context) {
+    throw new Error('Define me, jackass!');
+  }
   /* eslint-disable no-unused-vars */
 }

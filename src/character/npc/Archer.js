@@ -35,16 +35,17 @@ export default class Archer extends NPC {
     super(config);
   }
 
-  chooseAction(characters, nodes) {
+  chooseAction(context) {
+    const { characters } = context;
     const isPlayerNearby = this.isPlayerNearby(characters);
     let action;
-    
+
     if (this.mana <= 0) {
-      action = new Actions.Rest(this, characters, nodes);
+      action = new Actions.Rest(this);
     } else if (isPlayerNearby) {
-      action = new Actions.Flee(this, characters, nodes);
+      action = new Actions.Flee(this);
     } else {
-      action = new Actions.Attack(this, characters, nodes);
+      action = new Actions.Attack(this);
     }
 
     return action;

@@ -30,7 +30,7 @@ export default class Character {
 
     return targetNames.map((name) => characters[name]);
   }
-  
+
   decrementCooldowns() {
     Object.keys(this.cooldowns).forEach((key) => {
       if (this.cooldowns[key] <= 1) {
@@ -63,14 +63,28 @@ export default class Character {
   setCooldown(actionName, cooldown) {
     this.cooldowns[actionName] = cooldown;
   }
-  
+
   /* eslint-disable no-unused-vars */
-  canPerformAction(actionClassRef) {}
-  chooseAction(characters, nodes) {}
-  expendMana(mana) {}
-  getActionRank(actionName) {}
-  restoreMana(mana) {}
-  roll(type) {}
-  takeDamage(damage, characters) {}
+  canPerformAction(actionClassRef) {
+    throw new Error('Define me, jackass!');
+  }
+  chooseAction(context) {
+    throw new Error('Define me, jackass!');
+  }
+  expendMana(mana) {
+    throw new Error('Define me, jackass!');
+  }
+  getActionRank(actionName) {
+    throw new Error('Define me, jackass!');
+  }
+  restoreMana(mana) {
+    throw new Error('Define me, jackass!');
+  }
+  roll(type) {
+    throw new Error('Define me, jackass!');
+  }
+  takeDamage(damage, characters) {
+    throw new Error('Define me, jackass!');
+  }
   /* eslint-enable no-unused-vars */
 }

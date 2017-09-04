@@ -3,19 +3,19 @@ import RollTypes from '../RollTypes';
 import Action from './Action';
 
 export default class PowerAttack extends Action {
-  constructor(character, characters, nodes) {
-    super('Power Attack', character, characters, nodes);
+  constructor(character) {
+    super('Power Attack', character);
   }
 
   getManaCost() {
     return 2;
   }
 
-  _prepare() {
+  _prepare(context) {
     const rank = this.character.getActionRank(this.name);
-    const targets = this.character.chooseTargets(1, this.characters);
+    const targets = this.character.chooseTargets(1, context.characters);
     const attackRoll = this.character.roll(RollTypes.weaponAttack) + 2 * rank;
-    
+
     this.initiative = attackRoll;
     this.payload = {
       attackRoll,
@@ -24,7 +24,7 @@ export default class PowerAttack extends Action {
     };
   }
 
-  _resolve() {
+  _resolve(context) {
     const {
       attackRoll,
       rank,
@@ -33,18 +33,18 @@ export default class PowerAttack extends Action {
 
     this.character.expendMana(2);
     this.character.setCooldown(this.name, 2);
-    
+
     targets.forEach((target) => {
       if (target.isAlive) {
         const defenseRoll = target.roll(RollTypes.physicalDefense);
-        
+
         if (attackRoll >= defenseRoll) {
           console.log(`${this.name} successful!`);
-          
+
           const multiplier = (rank >= 3) ? 2 : 1.5;
           const damage = Math.ceil(multiplier * this.character.roll(RollTypes.weaponDamage));
-          
-          target.takeDamage(damage, this.characters);
+
+          target.takeDamage(damage, context.characters);
         } else {
           console.log(`${this.name} failed!`);
         }

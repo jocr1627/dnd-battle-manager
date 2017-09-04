@@ -1,18 +1,19 @@
 import Action from './Action';
 import { validateLocationIsInRange } from './Utils';
+import { getInput } from './Input.js';
 
 export default class Move extends Action {
-  constructor(character, characters, nodes) {
-    super('Move', character, characters, nodes);
+  constructor(actor) {
+    super('Move', actor);
   }
 
   _resolve() {
     const locationName = getInput(
-      `Where did ${this.character.displayName} move to? `,
+      `Where did ${this.actor.displayName} move to? `,
       false,
-      (locationName) => validateLocationIsInRange(this.character, locationName),
+      (locationName) => validateLocationIsInRange(this.actor, locationName),
     );
 
-    this.character.move(this.nodes[locationName]);
+    this.actor.move(this.nodes[locationName]);
   }
 }

@@ -1,11 +1,11 @@
 import Action from './Action';
 
 export default class Rest extends Action {
-  constructor(character, characters, nodes) {
-    super('Rest', character, characters, nodes);
+  constructor(actor) {
+    super('Rest', actor);
   }
 
   _resolve() {
-    this.character.restoreMana();
+    this.actor.restoreMana();
   }
 }
